@@ -16,10 +16,10 @@
         </div>
 
         <nav class="nav bg-dark d-flex justify-content-around">
-            <a href="" class="link-light">Home</a>
+            <a href="{{ url_for('index') }}" class="link-light">Home</a>
             <a href="" class="link-light">Search Posts</a>
-            <a href="" class="link-light">Sign Up</a>
-            <a href="" class="link-light">Log In</a>
+            <a href="{{ url_for('signup') }}" class="link-light">Sign Up</a>
+            <a href="{{ url_for('login') }}" class="link-light">Log In</a>
         </nav>
 
         <div class="container">

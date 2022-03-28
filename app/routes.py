@@ -36,5 +36,12 @@ def index():
 
 @app.route('/signup')
 def signup():
-    return render_template('signup.html')
+    title = 'Sign Up'
+    return render_template('signup.html', title=title)
+
+
+@app.route('/login')
+def login():
+    title = 'Log In'
+    return render_template('login.html', title=title)
 
