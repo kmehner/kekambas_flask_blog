@@ -34,7 +34,7 @@ def index():
     return render_template('index.html', current_user=user, title=title, posts=posts)
 
 
-@app.route('/test')
-def test():
-    return 'This is a test'
+@app.route('/signup')
+def signup():
+    return render_template('signup.html')
 
