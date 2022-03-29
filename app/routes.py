@@ -1,6 +1,7 @@
 from app import app
-from flask import render_template
+from flask import redirect, render_template, url_for
 from app.forms import SignUpForm
+from app.models import User
 
 @app.route('/')
 def index():
@@ -45,8 +46,10 @@ def signup():
         email = form.email.data
         username = form.username.data
         password = form.password.data
-        # Print the data
-        print(email, username, password)
+        # Create a new user instance with form data
+        new_user = User(email=email, username=username, password=password)
+        return redirect(url_for('index'))
+
     return render_template('signup.html', title=title, form=form)
 
 
