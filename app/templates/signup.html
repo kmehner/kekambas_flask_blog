@@ -3,7 +3,7 @@
 
 {% block content %}
     <h1>Sign Up</h1>
-    <form>
+    <form method="post">
         {{ form.csrf_token }}
         <div class="form-group">
             {{ form.email.label }}
