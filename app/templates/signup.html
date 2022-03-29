@@ -3,8 +3,8 @@
 
 {% block content %}
     <h1>Sign Up</h1>
-    {{ form }}
-    <form class="Method">
+    <form class="post">
+        {{ form.csrf_token }}
         <div class="form-group">
             <!-- <label for="email">Email</label>
             <input type="text" name="email" class="form-control" placeholder="Email" /> -->

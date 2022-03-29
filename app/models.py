@@ -8,7 +8,7 @@ class User(db.Model):
     username = db.Column(db.String(50), unique=True, nullable=False)
     username = db.Column(db.String(50), unique=True, nullable=False)
     password = db.Column(db.String(256), nullable=False)
-    date_created = db.Column(db.datetime, nullable = False, default=datetime.utcnow)
+    date_created = db.Column(db.DateTime, nullable = False, default=datetime.utcnow)
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
