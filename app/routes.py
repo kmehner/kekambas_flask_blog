@@ -1,10 +1,11 @@
 from app import app
 from flask import render_template
 
+
 @app.route('/')
 def index():
     title = 'Home'
-    user = {'id': 1, 'username': 'bstanton', 'email': 'brians@codingtemple.com'}
+    user = {'id': 1, 'username': 'kmehner', 'email': 'katem@codingtemple.com'}
     posts = [
         {
             'id': 1,
@@ -44,3 +45,7 @@ def signup():
 def login():
     title = 'Log In'
     return render_template('login.html', title=title)
+
+@app.route('/test')
+def test():
+    return "This is a test"
