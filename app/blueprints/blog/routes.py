@@ -1,17 +1,17 @@
-from app import app
+from . import blog
 from flask import redirect, render_template, url_for, flash
 from flask_login import login_required, current_user
-from app.forms import PostForm
-from app.models import Post
+from .forms import PostForm
+from .models import Post
 
-@app.route('/')
+@blog.route('/')
 def index():
     title = 'Home'
     posts = Post.query.all()
     return render_template('index.html', title=title, posts=posts)
 
 
-@app.route('/create-post', methods=['GET', 'POST'])
+@blog.route('/create-post', methods=['GET', 'POST'])
 @login_required
 def create_post():
     title = 'Create A Post'
@@ -21,11 +21,11 @@ def create_post():
         body = form.body.data
         new_post = Post(title=title, body=body, user_id=current_user.id)
         flash(f"{new_post.title} has been created", 'secondary')
-        return redirect(url_for('index'))
+        return redirect(url_for('blog.index'))
     return render_template('create_post.html', title=title, form=form)
 
 
-@app.route('/my-posts')
+@blog.route('/my-posts')
 @login_required
 def my_posts():
     title = 'My Posts'
