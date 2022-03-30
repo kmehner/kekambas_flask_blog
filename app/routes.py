@@ -1,6 +1,6 @@
 from app import app
 from flask import redirect, render_template, url_for, flash
-from flask_login import login_user
+from flask_login import login_user, logout_user
 from app.forms import SignUpForm, LoginForm
 from app.models import User, Post
 
@@ -58,3 +58,9 @@ def login():
             
     return render_template('login.html', title=title, form=form)
 
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    flash('You have successfully logged out', 'primary')
+    return redirect(url_for('index'))
