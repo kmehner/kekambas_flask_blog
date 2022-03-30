@@ -1,14 +1,14 @@
 from app import app
 from flask import redirect, render_template, url_for, flash
+from flask_login import login_user
 from app.forms import SignUpForm, LoginForm
 from app.models import User, Post
 
 @app.route('/')
 def index():
     title = 'Home'
-    user = {'id': 1, 'username': 'bstanton', 'email': 'brians@codingtemple.com'}
     posts = Post.query.all()
-    return render_template('index.html', current_user=user, title=title, posts=posts)
+    return render_template('index.html', title=title, posts=posts)
 
 
 @app.route('/signup', methods=["GET", "POST"])
@@ -43,6 +43,18 @@ def login():
     if form.validate_on_submit():
         username = form.username.data
         password = form.password.data
-        print(username, password)
+        # Query for a user with that username
+        user = User.query.filter_by(username=username).first()
+        # Check if there is a user and the password is correct
+        if user and user.check_password(password):
+            # log the user in with flask-login
+            login_user(user)
+            # flash message that user has successfully logged in
+            flash(f'{user} has successfully logged in', 'success')
+            # redirect to the home page
+            return redirect(url_for('index'))
+        else:
+            flash('Username and/or password is incorrect', 'danger')
+            
     return render_template('login.html', title=title, form=form)
 
