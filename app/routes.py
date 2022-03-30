@@ -1,7 +1,7 @@
 from app import app
 from flask import redirect, render_template, url_for, flash
 from flask_login import login_user, logout_user, login_required
-from app.forms import SignUpForm, LoginForm
+from app.forms import SignUpForm, LoginForm, PostForm
 from app.models import User, Post
 
 @app.route('/')
@@ -70,4 +70,5 @@ def logout():
 @login_required
 def create_post():
     title = 'Create A Post'
-    return render_template('create_post.html', title=title)
+    form = PostForm()
+    return render_template('create_post.html', title=title, form=form)
