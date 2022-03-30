@@ -1,6 +1,6 @@
 from app import app
 from flask import redirect, render_template, url_for, flash
-from flask_login import login_user, logout_user
+from flask_login import login_user, logout_user, login_required
 from app.forms import SignUpForm, LoginForm
 from app.models import User, Post
 
@@ -64,3 +64,10 @@ def logout():
     logout_user()
     flash('You have successfully logged out', 'primary')
     return redirect(url_for('index'))
+
+
+@app.route('/create-post', methods=['GET', 'POST'])
+@login_required
+def create_post():
+    title = 'Create A Post'
+    return render_template('create_post.html', title=title)
