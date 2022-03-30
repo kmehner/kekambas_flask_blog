@@ -23,11 +23,12 @@
         </nav>
 
         <div class="container">
-           { % include 'alert_message.html' %}
 
-           {% block content %}
+            {% include 'alert_message.html' %}
+            
+            {% block content %}
 
-           {% endblock content %}
+            {% endblock content %}
         </div>
 
         
