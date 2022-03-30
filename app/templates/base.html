@@ -21,10 +21,10 @@
             {% if current_user.is_authenticated %}
                 <a href="{{ url_for('create_post') }}" class="link-light">Create A Post</a>
                 <a href="{{ url_for('my_posts') }}" class="link-light">My Posts</a>
-                <a href="{{ url_for('logout') }}" class="link-light">Log Out</a>
+                <a href="{{ url_for('auth.logout') }}" class="link-light">Log Out</a>
             {% else %}
-                <a href="{{ url_for('signup') }}" class="link-light">Sign Up</a>
-                <a href="{{ url_for('login') }}" class="link-light">Log In</a>
+                <a href="{{ url_for('auth.signup') }}" class="link-light">Sign Up</a>
+                <a href="{{ url_for('auth.login') }}" class="link-light">Log In</a>
             {% endif %}
         </nav>
 
