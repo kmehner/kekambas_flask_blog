@@ -1,11 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    {% if current_user.is_authenticated %}
-    <h1>Hello {{ current_user.username }}!</h1>
-    {% else %}
-    <h1>Hello please sign up to use our blog</h1>
-    {% endif %}
+    <h1>My Posts</h1>
 
     {% for p in posts %}
     <div class="card">
@@ -15,8 +11,10 @@
             <div>
                 <cite>&mdash; {{ p.author }}</cite>
             </div>
-            <a href="#" class="btn btn-primary">More Info</a>
+            <a href="#" class="btn btn-success">Edit</a>
+            <a href="#" class="btn btn-danger">Delete</a>
         </div>
     </div>
     {% endfor %}
+
 {% endblock content %}
