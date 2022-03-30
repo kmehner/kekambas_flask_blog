@@ -1,8 +1,6 @@
 {% extends 'base.html' %}
 
-
 {% block content %}
-
     {% if current_user.is_authenticated %}
     <h1>Hello {{ current_user.username }}!</h1>
     {% else %}
@@ -21,5 +19,4 @@
         </div>
     </div>
     {% endfor %}
-
 {% endblock content %}

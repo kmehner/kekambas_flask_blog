@@ -18,8 +18,14 @@
         <nav class="nav bg-dark d-flex justify-content-around">
             <a href="{{ url_for('index') }}" class="link-light">Home</a>
             <a href="" class="link-light">Search Posts</a>
-            <a href="{{ url_for('signup') }}" class="link-light">Sign Up</a>
-            <a href="{{ url_for('login') }}" class="link-light">Log In</a>
+            {% if current_user.is_authenticated %}
+                <a href="{{ url_for('create_post') }}" class="link-light">Create A Post</a>
+                <a href="{{ url_for('my_posts') }}" class="link-light">View Posts</a>
+                <a href="{{ url_for('logout') }}" class="link-light">Log Out</a>
+            {% else %}
+                <a href="{{ url_for('signup') }}" class="link-light">Sign Up</a>
+                <a href="{{ url_for('login') }}" class="link-light">Log In</a>
+            {% endif %}
         </nav>
 
         <div class="container">
