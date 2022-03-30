@@ -1,5 +1,5 @@
 from app import app
-from flask import redirect, render_template, url_for
+from flask import redirect, render_template, url_for, flash
 from app.forms import SignUpForm
 from app.models import User, Post
 
@@ -23,6 +23,8 @@ def signup():
         password = form.password.data
         # Create a new user instance with form data
         new_user = User(email=email, username=username, password=password)
+        # flash message saying new user has been created
+        flash(f"{new_user.username} has succesfully signed up.", "success")
         return redirect(url_for('index'))
 
     return render_template('signup.html', title=title, form=form)
