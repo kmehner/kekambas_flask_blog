@@ -21,4 +21,3 @@ from app.blueprints.blog import blog
 app.register_blueprint(blog)
 
 
-from app import routes, models
