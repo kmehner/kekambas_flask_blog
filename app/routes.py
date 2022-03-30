@@ -1,5 +1,5 @@
 from app import app
-from flask import redirect, render_template, url_for
+from flask import redirect, render_template, url_for, flash
 from app.forms import SignUpForm
 from app.models import User, Post
 
@@ -21,8 +21,17 @@ def signup():
         email = form.email.data
         username = form.username.data
         password = form.password.data
-        # Create a new user instance with form data
+        # Check if there is a user with that username or email
+        users_with_that_info = User.query.filter((User.username==username)|(User.password==password))
+        if users_with_that_info:
+            # Create a new user instance with form data
+            flash(f"There is already a user with that username and/or email. Please try again", "danger")
+            return render_template('signup.html', title=title, form=form)
+
         new_user = User(email=email, username=username, password=password)
+        # Flash message saying new user has been created
+        flash(f"{new_user.username} has succesfully signed up.", "success")
+
         return redirect(url_for('index'))
 
     return render_template('signup.html', title=title, form=form)
