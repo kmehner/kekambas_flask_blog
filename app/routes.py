@@ -78,3 +78,11 @@ def create_post():
         flash(f"{new_post.title} has been created", 'secondary')
         return redirect(url_for('index'))
     return render_template('create_post.html', title=title, form=form)
+
+
+@app.route('/my-posts')
+@login_required
+def my_posts():
+    title = 'My Posts'
+    posts = current_user.posts.all()
+    return render_template('my_posts.html', title=title, posts=posts)
