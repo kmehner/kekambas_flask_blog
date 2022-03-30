@@ -1,6 +1,6 @@
 from app import app
 from flask import redirect, render_template, url_for, flash
-from app.forms import SignUpForm
+from app.forms import SignUpForm, LoginForm
 from app.models import User, Post
 
 @app.route('/')
@@ -36,8 +36,13 @@ def signup():
     return render_template('signup.html', title=title, form=form)
 
 
-@app.route('/login')
+@app.route('/login', methods=['GET', 'POST'])
 def login():
     title = 'Log In'
-    return render_template('login.html', title=title)
+    form = LoginForm()
+    if form.validate_on_submit():
+        username = form.username.data
+        password = form.password.data
+        print(username, password)
+    return render_template('login.html', title=title, form=form)
 
