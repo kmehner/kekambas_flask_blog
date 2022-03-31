@@ -19,7 +19,10 @@ def create_post():
     if form.validate_on_submit():
         title = form.title.data
         body = form.body.data
+        image = form.image.data
         new_post = Post(title=title, body=body, user_id=current_user.id)
+        if image:
+            new_post.upload_to_cloudinary(image)
         flash(f"{new_post.title} has been created", 'secondary')
         return redirect(url_for('blog.index'))
     return render_template('create_post.html', title=title, form=form)
