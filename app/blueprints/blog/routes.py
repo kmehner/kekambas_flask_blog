@@ -34,6 +34,7 @@ def my_posts():
 
 
 @blog.route('/posts/<post_id>')
+@login_required
 def single_post(post_id):
     post = Post.query.get_or_404(post_id)
     title = post.title
