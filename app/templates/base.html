@@ -17,7 +17,7 @@
 
         <nav class="nav bg-dark d-flex justify-content-around">
             <a href="{{ url_for('index') }}" class="link-light">Home</a>
-            <a href="" class="link-light">Search Posts</a>
+            <a href="{{ url_for('search_posts') }}" class="link-light">Search Posts</a>
             {% if current_user.is_authenticated %}
                 <a href="{{ url_for('create_post') }}" class="link-light">Create A Post</a>
                 <a href="{{ url_for('my_posts') }}" class="link-light">View Posts</a>

@@ -1,7 +1,7 @@
 from app import app
 from flask import redirect, render_template, url_for, flash
 from flask_login import login_user, logout_user, login_required, current_user
-from app.forms import SignUpForm, LoginForm, PostForm
+from app.forms import SignUpForm, LoginForm, PostForm, SearchForm
 from app.models import User, Post
 
 @app.route('/')
@@ -85,3 +85,22 @@ def my_posts():
     title = 'My Posts'
     posts = current_user.posts.all()
     return render_template('my_posts.html', title=title, posts=posts)
+
+
+@app.route('/posts/<post_id>')
+@login_required
+def single_post(post_id):
+    post = Post.query.get(post_id)
+    if not post:
+        flash("That post does not exist")
+        return redirect(url_for('index.html'))
+    title = post.title
+    return render_template('post_detail.html', title=title, post=post)
+
+
+@app.route('/search-posts', methods=['GET', 'POST'])
+def search_posts():
+    title = 'Search'
+    form = SearchForm()
+    posts = []
+    return render_template('search_posts.html', title=title, posts=posts, form=form)
