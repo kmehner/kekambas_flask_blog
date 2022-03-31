@@ -1,7 +1,7 @@
 from . import blog
 from flask import redirect, render_template, url_for, flash
 from flask_login import login_required, current_user
-from .forms import PostForm
+from .forms import PostForm, SearchForm
 from .models import Post
 
 @blog.route('/')
@@ -39,3 +39,11 @@ def single_post(post_id):
     post = Post.query.get_or_404(post_id)
     title = post.title
     return render_template('post_detail.html', title=title, post=post)
+
+
+@blog.route('/search-posts', methods=['GET', 'POST'])
+def search_posts():
+    title = 'Search'
+    form = SearchForm()
+    posts = []
+    return render_template('search_posts.html', title=title, posts=posts, form=form)
