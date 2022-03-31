@@ -46,4 +46,7 @@ def search_posts():
     title = 'Search'
     form = SearchForm()
     posts = []
+    if form.validate_on_submit():
+        term = form.search.data
+        posts = Post.query.filter( (Post.title.ilike(f'%{term}%')) | (Post.body.ilike(f'%{term}%')) ).all()
     return render_template('search_posts.html', title=title, posts=posts, form=form)
