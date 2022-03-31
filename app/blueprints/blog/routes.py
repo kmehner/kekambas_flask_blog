@@ -55,7 +55,7 @@ def single_post(post_id):
 
 
 # Edit a Single Post by ID
-@blog.route('/edit-posts/<post_id>')
+@blog.route('/edit-posts/<post_id>', methods=["GET", "POST"])
 @login_required
 def edit_post(post_id):
     post = Post.query.get_or_404(post_id)
@@ -63,5 +63,10 @@ def edit_post(post_id):
         flash('You do not have edit access to this post.', 'danger')
         return redirect(url_for('blog.my_posts'))
     title = f"Edit {post.title}"
-
-    return render_template('post_edit.html', title=title, post=post)
+    form = PostForm()
+    if form.validate_on_submit():
+        post.update(**form.data)
+        flash(f'{post.title} has been updated', 'warning')
+        return redirect(url_for('blog.my_posts'))
+        
+    return render_template('post_edit.html', title=title, post=post, form=form)
