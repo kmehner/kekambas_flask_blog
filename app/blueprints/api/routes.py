@@ -1,5 +1,5 @@
 from . import api
-from .auth import basic_auth
+from .auth import basic_auth, token_auth
 from flask import jsonify, request
 from app.blueprints.blog.models import Post
 
@@ -28,6 +28,7 @@ def get_single_post(post_id):
 
 # Create a post
 @api.route('/posts/create', methods=['POST'])
+@token_auth.login_required
 def create_post():
     if not request.is_json:
         return jsonify({'error': 'Your request content-type must be application/json'}), 400
@@ -41,5 +42,6 @@ def create_post():
     # Get fields from data dict
     title = data['title']
     body = data['body']
-    new_post = Post(title=title, body=body, user_id=1)
+    user_id = token_auth.current_user().id
+    new_post = Post(title=title, body=body, user_id=user_id)
     return jsonify(new_post.to_dict())
