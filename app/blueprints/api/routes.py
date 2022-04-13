@@ -17,3 +17,7 @@ def get_posts():
 
 
 # Get a single post by id
+@api.route('/posts/<int:post_id>')
+def get_single_post(post_id):
+    post = Post.query.get_or_404(post_id)
+    return jsonify(post.to_dict())
