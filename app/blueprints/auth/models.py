@@ -47,3 +47,11 @@ class User(db.Model, UserMixin):
     def revoke_token(self):
         self.token_expiration = datetime.utcnow()
         db.session.commit()
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'username': self.username,
+            'email': self.email,
+            'date_created': self.date_created
+        }

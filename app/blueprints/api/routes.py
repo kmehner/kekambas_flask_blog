@@ -2,6 +2,7 @@ from . import api
 from .auth import basic_auth, token_auth
 from flask import jsonify, request
 from app.blueprints.blog.models import Post
+from app.blueprints.auth.models import User
 
 
 @api.route('/token')
@@ -10,6 +11,22 @@ def get_token():
     user = basic_auth.current_user()
     token = user.get_token()
     return jsonify({'token': token, 'expiration': user.token_expiration})
+
+
+# Create a user
+@api.route('/users/create', methods=['POST'])
+def create_user():
+    if not request.is_json:
+        return jsonify({'error': 'Your request content-type must be application/json'}), 400
+    data = request.json
+    for field in ['username', 'email', 'password']:
+        if field not in data:
+            return jsonify({'error': f'{field} must be in request body'}), 400
+    username = data['username']
+    email = data['email']
+    password = data['password']
+    new_user = User(username=username, email=email, password=password)
+    return jsonify(new_user.to_dict()), 201
 
 
 # Get all posts
@@ -44,4 +61,4 @@ def create_post():
     body = data['body']
     user_id = token_auth.current_user().id
     new_post = Post(title=title, body=body, user_id=user_id)
-    return jsonify(new_post.to_dict())
+    return jsonify(new_post.to_dict()), 201
