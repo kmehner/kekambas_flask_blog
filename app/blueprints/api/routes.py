@@ -1,11 +1,14 @@
 from . import api
+from .auth import basic_auth, token_auth
 from flask import jsonify, request
 from app.blueprints.blog.models import Post
 
-@api.route('/')
+@api.route('/posts')
+@basic_auth.login_required
 def index():
-    return jsonify({'test': 'This is a test'})
-
+    user = basic_auth.current_user
+    token = user.get_token()
+    return jsonify({'token': token, 'expiration': user.token_expiration})
 
 
 # Get all posts
@@ -22,6 +25,7 @@ def get_single_post(post_id):
 
 # Create a post
 @api.route('/posts/create', methods=['POST'])
+@token_auth.login_required
 def create_post():
     if not request.is_json:
         return jsonify({'error': 'Your request content-type must be application/json'}), 400
