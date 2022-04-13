@@ -42,3 +42,47 @@ def create_post():
     user_id = token_auth.current_user().id
     new_post = Post(title=title, body=body, user_id=user_id)
     return jsonify(new_post.to_dict())
+
+# Edit a Single Post by ID
+@api.route('/edit-posts/<post_id>', methods=["GET", "POST"])
+@token_auth.login_required
+def edit_post(post_id):
+    if not request.is_json:
+        return jsonify({'error': 'Your request content-type must be application/json'}), 400
+
+    # Get data from request body
+    data = request.json
+    # check that all fields are present
+    for field in ['title', 'body']:
+        if field not in data:
+        # if not return a 400 response with error
+            return jsonify({'error': f'{field} must be in request body'}), 400
+
+    post = Post.query.get_or_404(post_id)
+
+    # Get fields from data dict
+    title = data['title']
+    body = data['body']
+    user_id = token_auth.current_user().id
+
+    # if post author is not current user
+    if post.author != user_id:
+        return jsonify({'error': f'You must be the author to edit this post'}), 400
+
+    # post update (prev post.update(**form.data) thinking we can pass through individual stuff as kwargs)
+    edit_post = post.update(title=title, body=body, user_id=user_id)
+        
+    return jsonify(edit_post.to_dict())
+
+@api.route('/delete-posts/<post_id>')
+@token_auth.login_required
+def delete_post(post_id):
+    post = Post.query.get_or_404(post_id)
+    user_id = token_auth.current_user().id
+
+    # Check if the user is the author
+    if post.author != user_id:
+       return jsonify({'error':'You do not have delete access to this post'}), 400
+    else:
+        post.delete()
+
