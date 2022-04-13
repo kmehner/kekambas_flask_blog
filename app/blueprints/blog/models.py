@@ -42,3 +42,13 @@ class Post(db.Model):
         image_info = cloudinary.uploader.upload(file_to_upload)
         self.image_url = image_info.get('url')
         db.session.commit()
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'title': self.title,
+            'body': self.body,
+            'date_created': self.date_created,
+            'image_url': self.image_url,
+            'user_id': self.user_id
+        }
