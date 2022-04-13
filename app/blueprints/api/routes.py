@@ -39,5 +39,6 @@ def create_post():
     # Get fields from data dict
     title = data['title']
     body = data['body']
-    new_post = Post(title=title, body=body, user_id=1)
+    user_id = token_auth.current_user().id
+    new_post = Post(title=title, body=body, user_id=user_id)
     return jsonify(new_post.to_dict())
