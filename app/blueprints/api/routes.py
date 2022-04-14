@@ -52,17 +52,15 @@ def edit_post(post_id):
 
     # Get data from request body
     data = request.json
-    # check that all fields are present
-    for field in ['title', 'body']:
-        if field not in data:
-        # if not return a 400 response with error
+    # check that all are make sense
+    for field in data:
+        if field not in ['title', 'body']:
+        # if not return a 400 response with error (edit)
             return jsonify({'error': f'{field} must be in request body'}), 400
 
     post = Post.query.get_or_404(post_id)
 
     # Get fields from data dict
-    title = data['title']
-    body = data['body']
     user_id = token_auth.current_user().id
 
     # if post author is not current user
@@ -70,7 +68,7 @@ def edit_post(post_id):
         return jsonify({'error': f'You must be the author to edit this post'}), 400
 
     # post update (prev post.update(**form.data) thinking we can pass through individual stuff as kwargs)
-    edit_post = post.update(title=title, body=body, user_id=user_id)
+    edit_post = post.update(**data)
         
     return jsonify(edit_post.to_dict())
 
@@ -86,3 +84,4 @@ def delete_post(post_id):
     else:
         post.delete()
 
+    return 204
